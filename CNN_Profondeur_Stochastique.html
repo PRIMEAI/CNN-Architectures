@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ee;--panel:#ffffff;--ink:#1c1b19;--muted:#6b675f;--line:#e2ddd2;--soft:#efebe2;
+  --accent:#0f6e66;--accent-ink:#ffffff;--accent-soft:#d8ecea;--hl:#e09a2d;--hl-soft:#fbe8c6;
+  --pos:#2a6fdb;--neg:#d2453b;--zero:#f4f2ec;--r:#d2453b;--g:#2f9e57;--b:#2a6fdb;--vio:#7a4fd0;
+  --shadow:0 1px 2px rgba(30,25,15,.06),0 4px 16px rgba(30,25,15,.05);
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}}
+:root[data-theme="dark"]{
+  --bg:#151513;--panel:#1e1d1a;--ink:#ece9e2;--muted:#a19b8f;--line:#35322c;--soft:#272520;
+  --accent:#4fb5aa;--accent-ink:#0d1f1d;--accent-soft:#1b3b38;--hl:#f0b456;--hl-soft:#41321a;
+  --pos:#6ea3ff;--neg:#ff7d72;--zero:#25231f;--r:#ff7d72;--g:#5cc97f;--b:#6ea3ff;--vio:#a985f0;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 48px}
+header.top{margin-bottom:22px}
+.eyebrow{font:500 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.eyebrow a{color:var(--muted);text-decoration:none}.eyebrow a:hover{color:var(--accent)}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:8px 0 10px;letter-spacing:-.01em;font-weight:600}
+h2{font-size:19px;margin:0 0 12px;font-weight:600}
+h3{font-size:15px;margin:0 0 8px;font-weight:600}
+.author{font:500 15px var(--sans);color:var(--ink);margin:-4px 0 12px;letter-spacing:.01em}
+.lead{max-width:780px;color:var(--muted);margin:0;font-size:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.mono{font-family:var(--mono)}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+.ctl b{color:var(--ink);font:600 13px var(--mono)}
+.ctl .lab{display:flex;justify-content:space-between;gap:10px}
+select,input[type=number],input[type=text]{font:14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-height:34px}
+input[type=number]{width:72px;font-family:var(--mono)}
+input[type=range]{accent-color:var(--accent);width:150px}
+.btn{font:500 14px var(--sans);color:var(--ink);background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:7px 13px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:6px;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 13px var(--sans);background:var(--soft);color:var(--ink);border:0;padding:7px 12px;cursor:pointer;min-height:34px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.mat{display:inline-grid;gap:3px;font-family:var(--mono)}
+.cell{width:var(--cs,40px);height:var(--cs,40px);display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--zero);font-size:calc(var(--cs,40px)*.36);position:relative;border:1.5px solid transparent;transition:background .2s,border-color .15s,box-shadow .15s;color:var(--ink);user-select:none}
+.cell.pad{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.cell.win{border-color:var(--hl);box-shadow:0 0 0 2px var(--hl-soft)}
+.cell.cur{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.cell.dim{opacity:.35}
+.cell .w{position:absolute;right:3px;bottom:1px;font-size:calc(var(--cs,40px)*.24);color:var(--hl);font-weight:600}
+.cell.clickable{cursor:pointer}.cell.clickable:hover{border-color:var(--accent)}
+.mlabel{font:600 12px var(--mono);color:var(--muted);margin-bottom:6px;letter-spacing:.03em}
+.formula{font-family:var(--mono);font-size:14px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;line-height:1.8}
+.formula .res{color:var(--accent);font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 12px var(--mono);padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.pill.warn{background:var(--hl-soft)}
+.pill.bad{background:color-mix(in oklab,var(--neg) 22%,transparent)}
+.note{border-left:3px solid var(--accent);padding:8px 12px;background:var(--soft);border-radius:0 8px 8px 0;font-size:14px}
+.note.warn{border-color:var(--hl)}
+.note.bad{border-color:var(--neg)}
+.kpis{display:flex;gap:10px;flex-wrap:wrap}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:130px}
+.kpi .v{font:600 22px var(--mono);color:var(--ink)}
+.kpi .k{font-size:12px;color:var(--muted)}
+.op{font:600 22px var(--mono);color:var(--muted);align-self:center;padding:0 4px}
+.scrollx{overflow-x:auto;max-width:100%}
+.svgbox svg{width:100%;height:auto;display:block}
+.barrow{display:grid;grid-template-columns:200px 1fr 120px;gap:8px;align-items:center;font-size:13px;margin:6px 0}
+.barrow .b{height:18px;border-radius:5px;background:var(--accent);transition:width .25s}
+.barrow span:last-child{font-family:var(--mono);text-align:right}
+@media (max-width:640px){.barrow{grid-template-columns:110px 1fr 96px}}
+table.t{border-collapse:collapse;font:13px var(--mono);width:100%}
+table.t th,table.t td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.t th{color:var(--muted);font-weight:600}
+table.t th:first-child,table.t td:first-child{text-align:left}
+table.t tr.sel td{background:var(--accent-soft)}
+table.t tr.clk{cursor:pointer}table.t tr.clk:hover td{background:var(--soft)}
+footer{margin-top:36px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--accent)}
+svg text{font-family:var(--sans)}
+canvas.px{image-rendering:pixelated}
+kbd{font:12px var(--mono);background:var(--soft);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 5px}
+.hidden{display:none!important}
+@media (max-width:640px){.wrap{padding:20px 16px 40px}.card{padding:14px}input[type=range]{width:120px}}
+</style>
+<title>CNN – Profondeur stochastique</title>
+<style>
+#diag svg{min-width:640px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow"><span>Réseaux convolutifs – architectures</span><a href="index.html">← Toutes les animations</a></div>
+  <h1>Profondeur stochastique</h1>
+  <p class="author">Moulay Akhloufi</p>
+  <p class="lead">Huang et al. (2016) : à chaque mini-lot, chaque bloc résiduel l est <strong>désactivé au hasard</strong> (b<sub>l</sub> = 0) avec une probabilité 1 − p<sub>l</sub>. Seul le raccourci identité passe alors. Le réseau est en moyenne moins profond pendant l’entraînement, mais complet au test. C’est un « dropout » de blocs entiers.</p>
+</header>
+<div class="stack">
+  <section class="card stack">
+    <div class="controls" id="ctl"></div>
+    <div id="bar"></div>
+    <div class="scrollx svgbox" id="diag"></div>
+    <div class="formula" id="eq"></div>
+  </section>
+  <div class="grid2">
+    <section class="card stack">
+      <h2>Profondeur du réseau à chaque mini-lot</h2>
+      <div id="hist" class="svgbox"></div>
+    </section>
+    <section class="card stack">
+      <h2>Bilan</h2>
+      <div class="kpis" id="kpis"></div>
+      <div class="note" id="note"></div>
+    </section>
+  </div>
+  <section class="card stack">
+    <h2>À retenir</h2>
+    <div class="note">Entraînement : H<sub>l</sub> = ReLU(b<sub>l</sub> · f<sub>l</sub>(H<sub>l−1</sub>) + H<sub>l−1</sub>), avec b<sub>l</sub> ~ Bernoulli(p<sub>l</sub>) et la règle linéaire p<sub>l</sub> = 1 − (l/L)(1 − p<sub>L</sub>), p<sub>L</sub> = 0,5. Les blocs proches de l’entrée survivent plus souvent.</div>
+    <div class="note">Test : tous les blocs sont actifs, pondérés par leur probabilité de survie : H<sub>l</sub> = ReLU(p<sub>l</sub> · f<sub>l</sub>(H<sub>l−1</sub>) + H<sub>l−1</sub>). On garde ainsi la même espérance qu’à l’entraînement.</div>
+    <div class="note warn">ResNet-110 (L = 54 blocs) : profondeur moyenne à l’entraînement Σ p<sub>l</sub> ≈ 40 blocs → entraînement ≈ 25 % plus rapide et meilleure erreur de test.</div>
+  </section>
+</div>
+<footer><span>© 2026 Moulay Akhloufi · Deep Learning · Réseaux convolutifs – architectures</span><a href="index.html">Toutes les animations du module →</a></footer>
+</div>
+<script>
+// ---- utilitaires communs ----
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+function h(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') e.className = v;
+    else if (k === 'style' && v && typeof v === 'object') { for (const [sk, sv] of Object.entries(v)) { if (sv == null) continue; sk.startsWith('--') ? e.style.setProperty(sk, sv) : (e.style[sk] = sv); } }
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (k === 'html') e.innerHTML = v;
+    else if (v !== false && v != null) e.setAttribute(k, v);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+function fmt(x, d = 2) {
+  if (!isFinite(x)) return x > 0 ? '∞' : '—';
+  let s = (Math.round(x * 10 ** d) / 10 ** d).toString();
+  if (s === '-0') s = '0';
+  if (s.includes('e')) s = x.toExponential(1);
+  return s.replace('.', ',').replace('-', '−');
+}
+function fmtInt(n) { return Math.round(n).toLocaleString('fr-CA').replace(/ | /g, ' '); }
+function fmtM(n) { return n >= 1e9 ? fmt(n / 1e9, 2) + ' G' : n >= 1e6 ? fmt(n / 1e6, 2) + ' M' : n >= 1e3 ? fmt(n / 1e3, 1) + ' k' : fmtInt(n); }
+function par(x) { return x < 0 ? '(' + fmt(x) + ')' : fmt(x); }
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+function divColor(v, m) {
+  if (!m) return 'var(--zero)';
+  const t = clamp(Math.abs(v) / m, 0, 1);
+  return `color-mix(in oklab, ${v < 0 ? 'var(--neg)' : 'var(--pos)'} ${Math.round(t * 70)}%, var(--zero))`;
+}
+function seqColor(v, m, c = 'var(--accent)', top = 75) {
+  const t = m ? clamp(v / m, 0, 1) : 0;
+  return `color-mix(in oklab, ${c} ${Math.round(t * top)}%, var(--zero))`;
+}
+function rng(seed = 1) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function gauss(R) { let u = 0; while (!u) u = R(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * R()); }
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const isDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+class Player {
+  constructor({ n, onStep, speed = 900 }) { this.n = n; this.i = 0; this.onStep = onStep; this.speed = speed; this.t = null; }
+  go(i) { this.i = ((i % this.n) + this.n) % this.n; this.onStep(this.i); }
+  next() { this.go(this.i + 1); } prev() { this.go(this.i - 1); }
+  play() { this.stop(); this.t = setInterval(() => this.next(), this.speed); this.playing = true; }
+  stop() { clearInterval(this.t); this.t = null; this.playing = false; }
+  toggle() { this.playing ? this.stop() : this.play(); return this.playing; }
+  setSpeed(ms) { this.speed = ms; if (this.playing) this.play(); }
+}
+function playerBar(p, { extra = [], prevNext = true } = {}) {
+  const play = h('button', { class: 'btn primary', onclick: () => { play.textContent = p.toggle() ? '❚❚ Pause' : '▶ Lecture'; } }, '▶ Lecture');
+  const sp = h('input', { type: 'range', min: 100, max: 2000, step: 50, value: 2100 - p.speed, oninput: e => p.setSpeed(2100 - +e.target.value), 'aria-label': 'Vitesse' });
+  const kids = prevNext ? [h('button', { class: 'btn', onclick: () => { bar.stopUI(); p.prev(); } }, '◀ Précédent'), play, h('button', { class: 'btn', onclick: () => { bar.stopUI(); p.next(); } }, 'Suivant ▶')] : [play];
+  const bar = h('div', { class: 'controls' }, ...kids, h('label', { class: 'ctl' }, h('span', {}, 'Vitesse'), sp), ...extra);
+  bar.stopUI = () => { p.stop(); play.textContent = '▶ Lecture'; };
+  return bar;
+}
+function slider({ label, min, max, step = 1, value, onInput, fmtv = v => v, width }) {
+  const out = h('b', {}, fmtv(value));
+  const inp = h('input', { type: 'range', min, max, step, value, style: width ? { width } : null });
+  inp.addEventListener('input', () => { out.textContent = fmtv(+inp.value); onInput(+inp.value); });
+  const w = h('label', { class: 'ctl' }, h('span', { class: 'lab' }, h('span', {}, label), out), inp);
+  w.input = inp; w.set = v => { inp.value = v; out.textContent = fmtv(+v); };
+  return w;
+}
+function segmented(options, value, onChange) {
+  const s = h('div', { class: 'seg', role: 'group' }); const b2 = new Map();
+  const btns = options.map(([v, l]) => { const b = h('button', { class: v === value ? 'on' : '', onclick: () => { btns.forEach(x => x.classList.remove('on')); b.classList.add('on'); onChange(v); } }, l); b2.set(v, b); return b; });
+  s.append(...btns); s.set = v => { btns.forEach(b => b.classList.remove('on')); b2.get(v) && b2.get(v).classList.add('on'); };
+  return s;
+}
+function matrix(rows, cols, { cs = 40, gap = 3, cls = '' } = {}) {
+  const el = h('div', { class: 'mat ' + cls, style: { gridTemplateColumns: `repeat(${cols}, var(--cs))`, '--cs': cs + 'px', gap: gap + 'px' } });
+  const cells = [];
+  for (let r = 0; r < rows; r++) { cells.push([]); for (let c = 0; c < cols; c++) { const d = h('div', { class: 'cell' }); el.append(d); cells[r].push(d); } }
+  return { el, cells };
+}
+// image en niveaux de gris (Float32Array w×h, valeurs 0..1 ou signées) → canvas
+function grayCanvas(data, w, hh, { scale = 4, mode = 'gray', max = null, el = null } = {}) {
+  const cv = el || h('canvas', { class: 'px' }); cv.width = w; cv.height = hh;
+  cv.style.width = w * scale + 'px'; cv.style.height = hh * scale + 'px';
+  const ctx = cv.getContext('2d'), im = ctx.createImageData(w, hh);
+  let m = max; if (m == null) { m = 1e-9; for (const v of data) m = Math.max(m, Math.abs(v)); }
+  for (let i = 0; i < w * hh; i++) {
+    const v = data[i]; let c;
+    if (mode === 'gray') { const g = 255 * clamp(v / m, 0, 1); c = [g, g, g]; }
+    else if (mode === 'heat') { const t = clamp(v / m, 0, 1); c = [255 * Math.min(1, t * 1.6), 255 * clamp(t * 1.6 - .5, 0, 1), 60 * (1 - t)]; }
+    else { const t = clamp(v / m, -1, 1); c = t >= 0 ? [255 - 200 * t, 255 - 130 * t, 255] : [255, 255 + 190 * t, 255 + 180 * t]; }
+    im.data[4 * i] = c[0]; im.data[4 * i + 1] = c[1]; im.data[4 * i + 2] = c[2]; im.data[4 * i + 3] = 255;
+  }
+  ctx.putImageData(im, 0, 0); return cv;
+}
+// tracé de courbes simple en SVG
+function lineChart({ series, w = 520, hgt = 240, xmin, xmax, ymin, ymax, xlabel = '', ylabel = '', pad = 38, extra = '', xticks = 5, yticks = 4, yfmt = v => fmt(v, 2), xfmt = v => fmt(v, 1) }) {
+  const X = x => pad + (x - xmin) / (xmax - xmin) * (w - pad - 12), Y = y => hgt - pad + 8 - (y - ymin) / (ymax - ymin) * (hgt - pad - 4);
+  let s = `<svg viewBox="0 0 ${w} ${hgt + 10}">`;
+  for (let i = 0; i <= yticks; i++) { const v = ymin + (ymax - ymin) * i / yticks; s += `<line x1="${pad}" x2="${w - 12}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${pad - 6}" y="${Y(v) + 4}" font-size="11" text-anchor="end" fill="var(--muted)">${yfmt(v)}</text>`; }
+  for (let i = 0; i <= xticks; i++) { const v = xmin + (xmax - xmin) * i / xticks; s += `<text x="${X(v)}" y="${hgt + 6}" font-size="11" text-anchor="middle" fill="var(--muted)">${xfmt(v)}</text>`; }
+  if (xlabel) s += `<text x="${w - 12}" y="${hgt - pad + 2}" font-size="11" text-anchor="end" fill="var(--muted)">${xlabel}</text>`;
+  if (ylabel) s += `<text x="${pad + 4}" y="12" font-size="11" fill="var(--muted)">${ylabel}</text>`;
+  for (const sr of series) {
+    if (sr.pts.length < 2 && !sr.dots) continue;
+    if (sr.dots) for (const [x, y] of sr.pts) s += `<circle cx="${X(x)}" cy="${Y(clamp(y, ymin, ymax))}" r="${sr.r || 3.5}" fill="${sr.color}" fill-opacity="${sr.op || 1}"/>`;
+    else s += `<path d="${sr.pts.map(([x, y], i) => (i ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(clamp(y, ymin - (ymax - ymin), ymax + (ymax - ymin))).toFixed(1)).join('')}" fill="${sr.fill || 'none'}" fill-opacity="${sr.fillop || .2}" stroke="${sr.color}" stroke-width="${sr.width || 2.5}" ${sr.dash ? `stroke-dasharray="${sr.dash}"` : ''}/>`;
+  }
+  return s + (typeof extra === 'function' ? extra(X, Y) : extra) + '</svg>';
+}
+
+let L = 5, pL = 0.5, mode = 'train', b = [], depths = [], R = rng(7), batch = 0;
+const p = l => 1 - (l / L) * (1 - pL);
+function draw_b() { b = Array.from({ length: L }, (_, i) => R() < p(i + 1) ? 1 : 0); batch++; depths.push(b.reduce((a, x) => a + x, 0)); if (depths.length > 400) depths.shift(); }
+const sL = slider({ label: 'Nombre de blocs L', min: 3, max: 54, value: L, onInput: v => { L = v; reset(); } });
+$('#ctl').append(sL,
+  slider({ label: 'Survie du dernier bloc p_L', min: 0.1, max: 1, step: 0.05, value: pL, fmtv: v => fmt(v, 2), onInput: v => { pL = v; reset(); } }),
+  h('label', { class: 'ctl' }, h('span', {}, 'Phase'), segmented([['train', 'Entraînement'], ['test', 'Test']], mode, v => { mode = v; render(); })),
+  h('button', { class: 'btn', onclick: () => { draw_b(); render(); } }, '🎲 Nouveau mini-lot'),
+  h('button', { class: 'btn', onclick: () => { for (let i = 0; i < 200; i++) draw_b(); render(); } }, '+200 mini-lots'),
+  h('button', { class: 'btn', onclick: () => { sL.set(54); L = 54; reset(); } }, 'ResNet-110 (L = 54)'));
+const player = new Player({ n: 1e9, onStep: () => { if (mode === 'train') { draw_b(); render(); } }, speed: 800 });
+$('#bar').append(playerBar(player, { prevNext: false, extra: [h('span', { class: 'small muted' }, 'Lecture : un nouveau mini-lot à chaque pas')] }));
+function reset() { depths = []; batch = 0; draw_b(); render(); }
+function render() {
+  const big = L > 12, bw = big ? Math.max(14, Math.min(28, 900 / L)) : 120, gap = big ? 4 : 26;
+  const W = 90 + L * (bw + gap) + 60, H = big ? 150 : 190, y0 = big ? 40 : 50, bh = big ? 50 : 70, ym = y0 + bh / 2;
+  let s = `<svg viewBox="0 0 ${W} ${H}" style="min-width:${Math.min(W, 1100)}px"><text x="20" y="${ym + 5}" font-size="15" font-weight="600" fill="var(--ink)">x</text>`;
+  let x = 50;
+  for (let l = 1; l <= L; l++) {
+    const on = mode === 'test' || b[l - 1], pl = p(l);
+    const bx = x + 10;
+    // raccourci (arc au-dessus)
+    s += `<path d="M${x} ${ym} C${x} ${y0 - 26} ${bx + bw} ${y0 - 26} ${bx + bw + gap / 2} ${ym}" fill="none" stroke="${on ? 'var(--muted)' : 'var(--hl)'}" stroke-width="${on ? 1.5 : 3}" ${on ? 'stroke-dasharray="4 3"' : ''}/>`;
+    s += `<line x1="${x}" y1="${ym}" x2="${bx}" y2="${ym}" stroke="${on ? 'var(--accent)' : 'var(--line)'}" stroke-width="2"/>`;
+    s += `<rect x="${bx}" y="${y0}" width="${bw}" height="${bh}" rx="${big ? 4 : 10}" fill="${on ? (mode === 'test' ? `color-mix(in oklab,var(--accent) ${Math.round(25 + 50 * pl)}%,var(--zero))` : 'color-mix(in oklab,var(--accent) 45%,var(--zero))') : 'var(--zero)'}" stroke="${on ? 'var(--accent)' : 'var(--line)'}" stroke-width="1.5" ${on ? '' : 'stroke-dasharray="4 3"'}/>`;
+    if (!big) {
+      s += `<text x="${bx + bw / 2}" y="${y0 + 28}" text-anchor="middle" font-size="15" font-weight="600" fill="${on ? 'var(--ink)' : 'var(--muted)'}">${mode === 'test' ? `${fmt(pl, 2)}·f${l}` : 'f' + l}</text>`;
+      s += `<text x="${bx + bw / 2}" y="${y0 + 50}" text-anchor="middle" font-size="12" fill="var(--muted)">${mode === 'test' ? 'actif, pondéré' : on ? 'b = 1 (actif)' : 'b = 0 (sauté)'}</text>`;
+      s += `<text x="${bx + bw / 2}" y="${y0 + bh + 22}" text-anchor="middle" font-size="12" fill="var(--muted)">p${l} = ${fmt(pl, 2)}</text>`;
+    } else if (!on) s += `<text x="${bx + bw / 2}" y="${ym + 4}" text-anchor="middle" font-size="11" fill="var(--muted)">✕</text>`;
+    s += `<line x1="${bx + bw}" y1="${ym}" x2="${bx + bw + gap / 2}" y2="${ym}" stroke="${on ? 'var(--accent)' : 'var(--line)'}" stroke-width="2"/>`;
+    s += `<circle cx="${bx + bw + gap / 2}" cy="${ym}" r="${big ? 4 : 8}" fill="var(--panel)" stroke="var(--ink)"/>` + (big ? '' : `<text x="${bx + bw + gap / 2}" y="${ym + 4}" text-anchor="middle" font-size="12" fill="var(--ink)">+</text>`);
+    x = bx + bw + gap / 2;
+  }
+  s += `<line x1="${x}" y1="${ym}" x2="${x + 20}" y2="${ym}" stroke="var(--accent)" stroke-width="2"/><text x="${x + 26}" y="${ym + 5}" font-size="14" font-weight="600" fill="var(--ink)">sortie</text>`;
+  $('#diag').innerHTML = s + '</svg>';
+  const legend = big ? `<br><span class="muted">Bloc plein = actif ; bloc pointillé ✕ = sauté (seul le raccourci orange passe). p décroît de ${fmt(p(1), 2)} à ${fmt(p(L), 2)}.</span>` : '';
+  const exp = Array.from({ length: L }, (_, i) => p(i + 1)).reduce((a, v) => a + v, 0), cur = b.reduce((a, v) => a + v, 0);
+  $('#eq').innerHTML = mode === 'train'
+    ? `Mini-lot n° ${batch} : b = [${b.slice(0, 20).join(', ')}${L > 20 ? ', …' : ''}] → <span class="res">${cur} bloc(s) actif(s) sur ${L}</span><br><span class="muted">Un nouveau tirage à chaque mini-lot. Blocs sautés : ${b.map((v, i) => v ? null : i + 1).filter(Boolean).slice(0, 15).join(', ') || 'aucun'}${b.filter(v => !v).length > 15 ? '…' : ''}</span>` + legend
+    : `Test : les ${L} blocs sont actifs, chacun multiplié par p<sub>l</sub> : ${Array.from({ length: Math.min(L, 6) }, (_, i) => `${fmt(p(i + 1), 2)}·f${i + 1}`).join(' , ')}${L > 6 ? ' , …' : ''}` + legend;
+  // histogramme des profondeurs
+  const cnt = new Array(L + 1).fill(0); depths.forEach(d => cnt[d]++);
+  const mx = Math.max(1, ...cnt), Wc = 520, Hc = 200, bwid = (Wc - 50) / (L + 1);
+  let hs = `<svg viewBox="0 0 ${Wc} ${Hc + 36}">`;
+  cnt.forEach((c, d) => { const hh = c / mx * (Hc - 30); hs += `<rect x="${40 + d * bwid}" y="${Hc - hh}" width="${Math.max(1, bwid - 1)}" height="${hh}" fill="${d === cur && mode === 'train' ? 'var(--hl)' : 'var(--accent)'}" rx="1.5"/>`; });
+  const xe = 40 + exp * bwid + bwid / 2;
+  hs += `<line x1="${xe}" x2="${xe}" y1="10" y2="${Hc}" stroke="var(--neg)" stroke-width="2" stroke-dasharray="5 3"/><text x="${xe + 4}" y="20" font-size="12" fill="var(--neg)" font-weight="600">espérance Σp = ${fmt(exp, 1)}</text>`;
+  hs += `<line x1="40" x2="${Wc - 10}" y1="${Hc}" y2="${Hc}" stroke="var(--line)"/>`;
+  for (let d = 0; d <= L; d += Math.max(1, Math.ceil(L / 10))) hs += `<text x="${40 + d * bwid + bwid / 2}" y="${Hc + 16}" font-size="11" text-anchor="middle" fill="var(--muted)">${d}</text>`;
+  $('#hist').innerHTML = hs + `<text x="${Wc - 10}" y="${Hc + 32}" font-size="11" text-anchor="end" fill="var(--muted)">nombre de blocs actifs →</text></svg>`;
+  const mean = depths.reduce((a, v) => a + v, 0) / depths.length;
+  $('#kpis').innerHTML = `<div class="kpi"><div class="v">${fmt(exp, 1)}</div><div class="k">profondeur moyenne attendue (Σ p<sub>l</sub>)</div></div><div class="kpi"><div class="v">${fmt(mean, 1)}</div><div class="k">moyenne observée (${depths.length} lots)</div></div><div class="kpi"><div class="v">${fmt(100 * (1 - exp / L), 0)} %</div><div class="k">de calcul économisé à l’entraînement</div></div>`;
+  $('#note').textContent = mode === 'train' ? 'Chaque mini-lot entraîne un réseau différent, plus court en moyenne : le gradient traverse moins de blocs et chaque bloc apprend à être utile seul (effet régularisant, comme un ensemble de réseaux).' : 'Au test, le réseau complet est utilisé. Pondérer chaque bloc par p_l reproduit en moyenne ce qu’il voyait pendant l’entraînement.';
+}
+reset();
+</script>
+</body>
+</html>
